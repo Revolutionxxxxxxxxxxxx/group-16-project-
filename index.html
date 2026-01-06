@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>New Blog Post</title>
+
+  <!-- Apple-style font -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --glass-light: rgba(255,255,255,0.55);
+      --glass-dark: rgba(30,30,35,0.5);
+      --border-light: rgba(255,255,255,0.3);
+      --border-dark: rgba(255,255,255,0.15);
+      --text-light: #1d1d1f;
+      --text-dark: #f5f5f7;
+      --accent: #0071e3;
+      --success: #2ecc71;
+      --error: #ff3b30;
+      --gradient-animation: linear-gradient(135deg, #00c6ff, #0072ff, #00c6ff);
+    }
+
+    * {
+      box-sizing: border-box;
+      font-family: "Inter", -apple-system, BlinkMacSystemFont, sans-serif;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background: radial-gradient(circle at top, #f5f5f7, #e5e5ea);
+      overflow-x: hidden;
+      padding: 20px;
+    }
+
+    @media (prefers-color-scheme: dark) {
+      body {
+        background: radial-gradient(circle at top, #1c1c1f, #0b0b0d);
+        color: var(--text-dark);
+      }
+    }
+
+    /* Liquid Glass Container */
+    .glass-container {
+      width: 100%;
+      max-width: 720px;
+      backdrop-filter: blur(40px) saturate(200%);
+      -webkit-backdrop-filter: blur(40px) saturate(200%);
+      background: var(--glass-light);
+      border-radius: 30px;
+      border: 1px solid var(--border-light);
+      padding: 40px;
+      box-shadow: 0 40px 80px rgba(0,0,0,0.15);
+      position: relative;
+      overflow: hidden;
+      animation: float 6s ease-in-out infinite;
+    }
+
+    @media (prefers-color-scheme: dark) {
+      .glass-container {
+        background: var(--glass-dark);
+        border: 1px solid var(--border-dark);
+      }
+    }
+
+    /* Animated Gradient Overlay */
+    .glass-container::before {
+      content: '';
+      position: absolute;
+      top: -50%;
+      left: -50%;
+      width: 200%;
+      height: 200%;
+      background: var(--gradient-animation);
+      background-size: 400% 400%;
+      animation: gradientMove 12s ease infinite;
+      opacity: 0.08;
+      pointer-events: none;
+    }
+
+    @keyframes gradientMove {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+
+    h1 {
+      margin-top: 0;
+      font-size: 2rem;
+      letter-spacing: -0.03em;
+      text-align: center;
+      font-weight: 700;
+      color: var(--text-light);
+      position: relative;
+      z-index: 2;
+    }
+
+    label {
+      font-weight: 500;
+      display: block;
+      margin-top: 20px;
+      z-index: 2;
+      position: relative;
+    }
+
+    input, textarea {
+      width: 100%;
+      margin-top: 8px;
+      padding: 16px;
+      border-radius: 18px;
+      border: none;
+      outline: none;
+      background: rgba(255,255,255,0.6);
+      font-size: 1rem;
+      transition: transform 0.3s ease, box-shadow 0.3s ease, background 0.3s ease;
+      backdrop-filter: blur(10px);
+    }
+
+    @media (prefers-color-scheme: dark) {
+      input, textarea {
+        background: rgba(255,255,255,0.08);
+        color: white;
+      }
+    }
+
+    input:hover, textarea:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+      background: rgba(255,255,255,0.8);
+    }
+
+    textarea {
+      resize: none;
+    }
+
+    .counter {
+      text-align: right;
+      font-size: 0.85rem;
+      opacity: 0.7;
+      margin-top: 4px;
+      z-index: 2;
+      position: relative;
+    }
+
+    .image-preview {
+      margin-top: 15px;
+      display: none;
+      position: relative;
+      z-index: 2;
+    }
+
+    .image-preview img {
+      max-width: 100%;
+      border-radius: 20px;
+      box-shadow: 0 25px 50px rgba(0,0,0,0.25);
+      transition: transform 0.3s ease;
+    }
+
+    .image-preview img:hover {
+      transform: scale(1.02) rotate(0.2deg);
+    }
+
+    .btn {
+      margin-top: 30px;
+      width: 100%;
+      padding: 16px;
+      border-radius: 999px;
+      border: none;
+      background: var(--accent);
+      color: white;
+      font-size: 1.1rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: transform 0.3s ease, box-shadow 0.3s ease, background 0.3s ease;
+      z-index: 2;
+      position: relative;
+    }
+
+    .btn:hover {
+      transform: translateY(-2px) scale(1.02);
+      box-shadow: 0 20px 40px rgba(0,113,227,0.4);
+      background: linear-gradient(135deg, #00c6ff, #0072ff);
+    }
+
+    .feedback {
+      margin-top: 20px;
+      padding: 14px;
+      border-radius: 16px;
+      display: none;
+      font-weight: 500;
+      text-align: center;
+      position: relative;
+      z-index: 2;
+    }
+
+    .success {
+      background: rgba(46,204,113,0.15);
+      color: var(--success);
+    }
+
+    .error {
+      background: rgba(255,59,48,0.15);
+      color: var(--error);
+    }
+
+    .back-link {
+      margin-top: 25px;
+      display: block;
+      text-align: center;
+      text-decoration: none;
+      font-weight: 500;
+      color: var(--accent);
+      position: relative;
+      z-index: 2;
+    }
+
+    @keyframes float {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-8px); }
+    }
+  </style>
+</head>
+
+<body>
+
+  <form class="glass-container" action="blog_post_process.php" method="POST" enctype="multipart/form-data" onsubmit="return validateForm()">
+    <h1>New Blog Post</h1>
+
+    <label>Blog Title</label>
+    <input type="text" id="title" name="blogtitle" maxlength="120" placeholder="Enter title…" />
+    <div class="counter" id="titleCounter">0 / 120</div>
+
+    <label>Date</label>
+    <input type="text" id="date" name="blogdate" readonly />
+
+    <label>Upload Image</label>
+    <input type="file" name="uploadimage" accept="image/*" onchange="previewImage(event)" />
+
+    <div class="image-preview" id="preview">
+      <img id="previewImg" />
+    </div>
+
+    <label>Blog Content</label>
+    <textarea id="content" name="blogpara" rows="8" maxlength="2000" placeholder="Write something beautiful…"></textarea>
+    <div class="counter" id="contentCounter">0 / 2000</div>
+
+    <button class="btn" type="submit">Save Post</button>
+
+    <div id="feedback" class="feedback"></div>
+
+    <a href="index.php" class="back-link">← Back to Home</a>
+  </form>
+
+  <script>
+    // Auto-fill date
+    const dateInput = document.getElementById("date");
+    dateInput.value = new Date().toLocaleDateString(undefined, {
+      year: "numeric",
+      month: "long",
+      day: "numeric"
+    });
+
+    // Character counters
+    const title = document.getElementById("title");
+    const content = document.getElementById("content");
+
+    title.addEventListener("input", () => {
+      document.getElementById("titleCounter").textContent =
+        `${title.value.length} / 120`;
+    });
+
+    content.addEventListener("input", () => {
+      document.getElementById("contentCounter").textContent =
+        `${content.value.length} / 2000`;
+    });
+
+    // Image preview
+    function previewImage(event) {
+      const preview = document.getElementById("preview");
+      const img = document.getElementById("previewImg");
+      img.src = URL.createObjectURL(event.target.files[0]);
+      preview.style.display = "block";
+    }
+
+    // Feedback validation
+    function validateForm() {
+      const feedback = document.getElementById("feedback");
+
+      if (!title.value || !content.value) {
+        feedback.textContent = "Please fill in all required fields.";
+        feedback.className = "feedback error";
+        feedback.style.display = "block";
+        return false;
+      }
+
+      feedback.textContent = "Post ready to be saved…";
+      feedback.className = "feedback success";
+      feedback.style.display = "block";
+      return true;
+    }
+  </script>
+
+</body>
+</html>
